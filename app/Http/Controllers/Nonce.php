@@ -137,23 +137,24 @@ class Nonce extends Controller {
         
         $combine = $hash.$nonce;
 
-        if (substr(hash('sha256', $combine),0,1) == '0') {
-            return 'True';
-        } else {    
-            return 'False';
+        if ($problem == 1) {
+            if (substr(hash('sha256', $combine),0,1) == '0') {
+                return 'True';
+            } else {    
+                return 'False';
+            }
+        } else if ($problem == 2) {
+            if (substr(hash('sha256', $combine),0,2) == '00') {
+                return 'True';
+            } else {    
+                return 'False';
+            }
+        } else if ($problem == 3) {
+            if (substr(hash('sha256', $combine),0,3) == '000') {
+                return 'True';
+            } else {    
+                return 'False';
+            }
         }
-
-        if (substr(hash('sha256', $combine),0,2) == '00') {
-            return 'True';
-        } else {    
-            return 'False';
-        }
-        
-        if (substr(hash('sha256', $combine),0,3) == '000') {
-            return 'True';
-        } else {    
-            return 'False';
-        }
-
     }
 }
