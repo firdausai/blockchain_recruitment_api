@@ -15,4 +15,4 @@ $router->get('/', function () use ($router) {
     return 'API Rekrutasi Blockchain Lab Datascience';
 });
 
-$router->get('/{nim}/{problem}/{nonce}', 'Nonce@check_nonce');
+$router->get('/{nim}/{nonce_1}/{nonce_2}/{nonce_3}', 'Nonce@check_nonce');

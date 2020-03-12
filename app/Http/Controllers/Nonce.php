@@ -8,7 +8,7 @@ use Illuminate\Log\Logger;
 
 class Nonce extends Controller {
 
-    public function check_nonce($nim, $problem, $nonce) {
+    public function check_nonce($nim, $nonce_1, $nonce_2, $nonce_3) {
 
         $data = array(
             "1301184218"    =>  array(
@@ -127,34 +127,42 @@ class Nonce extends Controller {
                                 ),
         );
 
-        if ($problem == 1) {
-            $hash = $data[$nim]['hash_1'];
-        } else if ($problem == 2) {
-            $hash = $data[$nim]['hash_2'];
-        } else if ($problem == 3) {
-            $hash = $data[$nim]['hash_3'];
-        }
-        
-        $combine = $hash.$nonce;
+        $hash_1 = $data[$nim]['hash_1'];
+        $hash_2 = $data[$nim]['hash_2'];
+        $hash_3 = $data[$nim]['hash_3'];
+      
+        $combine_1 = $hash_1.$nonce_1;
+        $combine_2 = $hash_2.$nonce_2;
+        $combine_3 = $hash_3.$nonce_3;
 
-        if ($problem == 1) {
-            if (substr(hash('sha256', $combine),0,1) == '0') {
-                return 'True';
-            } else {    
-                return 'False';
-            }
-        } else if ($problem == 2) {
-            if (substr(hash('sha256', $combine),0,2) == '00') {
-                return 'True';
-            } else {    
-                return 'False';
-            }
-        } else if ($problem == 3) {
-            if (substr(hash('sha256', $combine),0,3) == '000') {
-                return 'True';
-            } else {    
-                return 'False';
-            }
+        $status_1 = False;
+        $status_2 = False;
+        $status_3 = False;
+
+        if (substr(hash('sha256', $combine_1),0,1) == '0') {
+            $status_1 = True;
         }
+
+        if (substr(hash('sha256', $combine_2),0,2) == '00') {
+            $status_2 = True;
+        }
+
+        if (substr(hash('sha256', $combine_3),0,3) == '000') {
+            $status_3 = True;
+        }
+
+        if ($status_1 == False || $status_2 == False || $status_3 == False) {
+            $message = 'Ayo '.$data[$nim]['nama'].', kamu pasti bisa!';
+        } else {
+            $message = 'Wagilasehh bener semua. Selamat, '.$data[$nim]['nama'].'!';
+        }
+
+        return response()->json([
+            'status_nonce_1'    => $status_1,
+            'status_nonce_2'    => $status_2,
+            'status_nonce_3'    => $status_3,
+            'message'           => $message
+            ]);
+        
     }
 }
