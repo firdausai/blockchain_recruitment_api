@@ -12,7 +12,7 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return 'API Rekrutasi Blockchain Lab Datascience';
 });
 
 $router->get('/{nim}/{problem}/{nonce}', 'Nonce@check_nonce');
